@@ -1,0 +1,18 @@
+Creating  postgres in docker
+    docker run --name finance -e POSTGRES_USER=root -e POSTGRES_PASSWORD='123456' -p 5433:5432 -d postgres:12-alpine
+
+Creating database 
+    docker exec -it finance createdb --username=root --owner=root finance_db
+Drop database
+    docker exec -it postgres12 dropdb finance_db
+
+Access to database 
+    docker exec -it finance psql -U root finance_db
+
+
+Creating new migration
+    migrate create -ext sql -dir ./migrations -seq init
+Run the migrations
+    migrate -path ./migrations -database "postgresql://root:123456@localhost:5433/finance_db?sslmode=disable" up
+
+
